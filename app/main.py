@@ -3,7 +3,7 @@ import sqlite3
 
 app = Flask(__name__)
 
-DB_NAME = 'aceest.db'
+DB_NAME = 'clients.db'
 # client = []  # List to store client data
 
 # DB Initialization
@@ -22,7 +22,7 @@ def init_db():
     conn.commit()
     conn.close()
 
-# init_db()
+init_db()
 
 @app.route('/')
 def home():

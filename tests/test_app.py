@@ -1,9 +1,11 @@
 import pytest
 
 from app import app
+from app.main import init_db
 
 @pytest.fixture
 def client():
+    init_db()  # Ensure the database is initialized before running tests
     app.testing = True
     return app.test_client()
 
