@@ -68,7 +68,7 @@ docker run -p 5000:5000 aceest-devops
 Image available at:
 
 ```bash
-docker pull <your-username>/aceest-devops:latest
+docker pull kspravena92/aceest-devops:latest
 ```
 
 ---
