@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Clone code') {
             steps {
-                git 'https://github.com/sureshpraveena/aceest-devops'
+                git branch: 'main', url: 'https://github.com/sureshpraveena/aceest-devops'
             }
         }
         stage('Install dependencies') {
