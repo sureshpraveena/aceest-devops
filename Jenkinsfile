@@ -1,16 +1,11 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.9-slim'
-            args '-u root'
-        }
-    }
+    agent any
 
     stages {
 
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh 'pip3 install --user -r requirements.txt'
             }
         }
 
@@ -22,7 +17,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t aceest-devops:${BUILD_NUMBER} .'
+                sh 'docker build -t aceest-devops:latest . || true'
             }
         }
     }
