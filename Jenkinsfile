@@ -19,7 +19,7 @@ pipeline {
             agent {
                 docker {
                     image 'python:3.11'
-                    args '-u root'   // 👈 fixes permission issue
+                    args '-u root'
                 }
             }
             steps {
@@ -33,11 +33,28 @@ pipeline {
             }
         }
 
+        // 🔥 ADD THIS STAGE HERE
+        stage('SonarQube Scan') {
+            environment {
+                scannerHome = tool 'sonar-scanner'
+            }
+            steps {
+                withSonarQubeEnv('sonarqube') {
+                    sh '''
+                    ${scannerHome}/bin/sonar-scanner \
+                    -Dsonar.projectKey=aceest-devops \
+                    -Dsonar.sources=.
+                    '''
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t aceest-devops:latest .'
             }
         }
+
         stage('Push to DockerHub') {
             steps {
                 script {
