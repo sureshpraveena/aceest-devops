@@ -1,18 +1,13 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.11'
-        }
-    }
+    agent any
 
     options {
         skipDefaultCheckout(true)
     }
 
-
     stages {
 
-       stage('Checkout Code') {
+        stage('Checkout Code') {
             steps {
                 git branch: 'main',
                     credentialsId: 'github-creds',
@@ -23,6 +18,8 @@ pipeline {
         stage('Setup Python Env') {
             steps {
                 sh '''
+                apt update
+                apt install -y python3 python3-pip python3-venv
                 python3 -m venv venv
                 . venv/bin/activate
                 pip install --upgrade pip
@@ -42,7 +39,6 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                // sh 'docker build -t aceest-devops:latest . || true'
                 sh 'docker build -t aceest-devops:latest .'
             }
         }
