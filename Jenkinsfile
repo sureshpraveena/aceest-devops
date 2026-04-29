@@ -1,11 +1,17 @@
 pipeline {
     agent any
 
+    options {
+        skipDefaultCheckout(true)
+    }
+
+
     stages {
 
-        stage('Checkout Code') {
+       stage('Checkout Code') {
             steps {
-                git credentialsId: 'github-creds',
+                git branch: 'main',
+                    credentialsId: 'github-creds',
                     url: 'https://github.com/sureshpraveena/aceest-devops.git'
             }
         }
