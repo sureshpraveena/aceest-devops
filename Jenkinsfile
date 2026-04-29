@@ -38,5 +38,17 @@ pipeline {
                 sh 'docker build -t aceest-devops:latest .'
             }
         }
+        stage('Push to DockerHub') {
+            steps {
+                script {
+                    docker.withRegistry('', 'docker-creds') {
+                        sh '''
+                        docker tag aceest-devops:latest kspraveena92/aceest-devops:latest
+                        docker push kspraveena92/aceest-devops:latest
+                        '''
+                    }
+                }
+            }
+        }
     }
 }
