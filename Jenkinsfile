@@ -1,26 +1,29 @@
 pipeline {
-    agent any
-    stages {
-        stage('Clone code') {
-            steps {
-                git branch: 'main', url: 'https://github.com/sureshpraveena/aceest-devops'
-            }
+    agent {
+        docker {
+            image 'python:3.9-slim'
+            args '-u root'
         }
-        stage('Install dependencies') {
+    }
+
+    stages {
+
+        stage('Install Dependencies') {
             steps {
                 sh 'pip install -r requirements.txt'
             }
         }
 
-        stage('Run tests') {
+        stage('Run Tests') {
             steps {
-                sh 'pytest tests'
+                sh 'pytest'
             }
         }
-            stage('Build Docker image') {
-                steps {
-                    sh 'docker build -t aceest:v2 .'
-                }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t aceest-devops:${BUILD_NUMBER} .'
             }
+        }
     }
 }
