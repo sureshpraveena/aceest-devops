@@ -3,6 +3,13 @@ pipeline {
 
     stages {
 
+        stage('Checkout Code') {
+            steps {
+                git credentialsId: 'github-creds',
+                    url: 'https://github.com/sureshpraveena/aceest-devops.git'
+            }
+        }
+
         stage('Setup Python Env') {
             steps {
                 sh '''
@@ -25,7 +32,8 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t aceest-devops:latest . || true'
+                // sh 'docker build -t aceest-devops:latest . || true'
+                sh 'docker build -t aceest-devops:latest .'
             }
         }
     }
