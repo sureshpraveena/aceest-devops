@@ -15,23 +15,19 @@ pipeline {
             }
         }
 
-        stage('Setup Python Env') {
+        stage('Python Setup & Test') {
+            agent {
+                docker {
+                    image 'python:3.11'
+                    args '-u root'   // 👈 fixes permission issue
+                }
+            }
             steps {
                 sh '''
-                apt update
-                apt install -y python3 python3-pip python3-venv
-                python3 -m venv venv
+                python -m venv venv
                 . venv/bin/activate
                 pip install --upgrade pip
                 pip install -r requirements.txt
-                '''
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-                sh '''
-                . venv/bin/activate
                 pytest
                 '''
             }
