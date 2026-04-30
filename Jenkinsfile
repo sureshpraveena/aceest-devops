@@ -33,7 +33,6 @@ pipeline {
             }
         }
 
-        // 🔥 ADD THIS STAGE HERE
         stage('SonarQube Scan') {
             environment {
                 scannerHome = tool 'sonar-scanner'
@@ -65,6 +64,15 @@ pipeline {
                         '''
                     }
                 }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh '''
+                docker stop aceest-container || true
+                docker rm aceest-container || true
+                docker run -d -p 5000:5000 --name aceest-container kspraveena92/aceest-devops:latest
+                '''
             }
         }
     }
